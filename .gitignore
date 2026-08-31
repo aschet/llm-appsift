@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+
+# measurement output and generated reports
+*_data/
+report.html
+*_sessions/
+*.log
+*.jsonl
+models*.txt

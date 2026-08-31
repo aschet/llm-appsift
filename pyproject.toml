@@ -1,0 +1,50 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "llm-appsift"
+dynamic = ["version"]
+description = "Application-building benchmark for locally hosted coding models served by Ollama"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
+keywords = ["ollama", "llm", "benchmark", "evaluation", "local-models", "coding", "agents"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Testing",
+]
+dependencies = []
+
+[project.scripts]
+appsift = "appsift.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/aschet/llm-appsift"
+Issues = "https://github.com/aschet/llm-appsift/issues"
+
+[tool.pytest.ini_options]
+# Scoped to this directory alone: a sweep leaves generated applications and their
+# own test suites under report_data/, and pytest run from the repo root would
+# otherwise try to collect those too.
+testpaths = ["tests"]
+# tests/reference is the answer to the task, not part of this suite. Its tests
+# import `todoapp`, which only resolves once the reference has been seeded into a
+# task repository, so collecting them here fails. The suite exercises it through
+# appsift.harness.verify instead, which is how a real run reaches it. unittest
+# already skips the directory, having no __init__.py.
+norecursedirs = ["reference"]
+
+# Single source of truth: the version lives in the package and hatchling reads it.
+[tool.hatch.version]
+path = "src/appsift/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/appsift"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/appsift", "tests", "README.md", "LICENSE", "pyproject.toml"]

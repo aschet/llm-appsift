@@ -1,0 +1,16 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "todoapp"
+version = "1.0.0"
+description = "Reference solution for the ag_todoapp agent task"
+requires-python = ">=3.9"
+dependencies = ["flask>=3"]
+
+[project.scripts]
+todoapp = "todoapp.__main__:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/todoapp"]
